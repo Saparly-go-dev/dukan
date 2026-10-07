@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="tk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dükan — Haryt we satuw dolandyryşy</title>
+  <meta name="description" content="Harytlar, ammar we satuwlar üçin dolandyryş ulgamy.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%232853ef'/%3E%3Cpath d='M9 8h6a8 8 0 010 16H9zm5 4v8h1a4 4 0 000-8z' fill='white'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside>
+    <a href="./" class="brand"><span>D</span>dükan<span class="dot">.</span></a>
+    <div class="store">
+      <div class="store-icon">▥</div>
+      <div data-i18n="store.name">Merkezi dükan<small data-i18n="store.place">Aşgabat · Esasy şahamça</small></div>
+    </div>
+    <p class="nav-label" data-i18n="nav.label">DOLANDYRYŞ</p>
+    <nav>
+      <button class="active" data-view="overview" data-i18n="nav.overview"><span>▦</span> Baş sahypa</button>
+      <button data-view="products" data-i18n="nav.products"><span>▧</span> Harytlar <small id="navCount">8</small></button>
+      <button data-view="sales" data-i18n="nav.sales"><span>↗</span> Satuwlar</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="profile"><span>AD</span><div>Admin<small data-i18n="profile.role">Dükan dolandyryjysy</small></div></div>
+    </div>
+  </aside>
+
+  <div class="shell">
+    <header>
+      <div>Dükan <span>/</span> <b id="crumb">Baş sahypa</b></div>
+      <div class="header-right">
+        <span class="date" id="today"></span>
+        <div class="lang-switch" role="group" aria-label="Dil / Язык / Language">
+          <button data-lang="tk">TK</button><button data-lang="ru">RU</button><button data-lang="en">EN</button>
+        </div>
+        <span class="user">AD</span>
+      </div>
+    </header>
+
+    <main>
+      <div class="page-heading">
+        <div>
+          <div class="eyebrow" data-i18n="eyebrow">DÜKANYŇYZ BIR ÝERDE</div>
+          <h1 id="title">Işiňize umumy syn</h1>
+          <p id="intro">Harytlara gözegçilik ediň. Satuwy aňsat dolandyryň.</p>
+        </div>
+        <button class="primary" id="newSale" data-i18n="btn.newSale">＋ Täze satuw</button>
+      </div>
+
+      <div class="metrics">
+        <article><div class="metric-label" data-i18n="m.revenue">Şu günki satuw <span>↗</span></div><div class="number" id="revenue"></div><small id="revenueNote"></small></article>
+        <article><div class="metric-label" data-i18n="m.count">Satuwlaryň sany <span>▤</span></div><div class="number" id="saleCount"></div><small data-i18n="m.countNote">Şu gün tamamlanan satuwlar</small></article>
+        <article><div class="metric-label" data-i18n="m.stock">Ammardaky harytlar <span>▧</span></div><div class="number" id="stock"></div><small id="varieties"></small></article>
+        <article><div class="metric-label" data-i18n="m.low">Az galan harytlar <span class="orange">!</span></div><div class="number" id="lowCount"></div><small data-i18n="m.lowNote">5 sany we ondan az</small></article>
+      </div>
+
+      <section id="overview">
+        <div class="overview-grid">
+          <article class="panel chart-panel">
+            <div class="panel-heading">
+              <div><h2 data-i18n="chart.title">Satuwyň depgini</h2><p data-i18n="chart.sub">Soňky 7 gün · TMT</p></div>
+              <span class="tag" id="weekRange"></span>
+            </div>
+            <div class="chart" id="chart" role="img"></div>
+            <div class="chart-caption"><span data-i18n="chart.legend">● Satuw möçberi</span><span data-i18n="chart.total">Jemi: <b id="weekTotal"></b></span></div>
+          </article>
+          <article class="panel low-panel">
+            <div class="panel-heading">
+              <div><h2 data-i18n="low.title">Üns berilmeli harytlar</h2><p data-i18n="low.sub">Ammardaky galyndy azalýar</p></div>
+              <span class="warning-icon">!</span>
+            </div>
+            <div id="lowList"></div>
+            <button class="text-button" id="showLow" data-i18n="low.all">Ähli az galan harytlar <span>→</span></button>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel inventory" id="inventory">
+        <div class="panel-heading">
+          <div><h2 data-i18n="inv.title">Harytlaryň sanawy</h2><p data-i18n="inv.sub">Bahalary we ammar galyndysyny dolandyryň</p></div>
+          <button id="addProduct" data-i18n="btn.addProduct">＋ Haryt goşmak</button>
+        </div>
+        <div class="table-tools">
+          <label class="search"><span>⌕</span><input id="search" data-i18n-ph="search.ph" data-i18n-aria="search.ph"></label>
+          <div>
+            <select id="category" data-i18n-aria="pd.category"></select>
+            <select id="status" data-i18n-aria="th.status">
+              <option value="" data-i18n="filter.allStatus">Ähli ýagdaýlar</option>
+              <option value="low" data-i18n="status.low">Az galan</option>
+              <option value="out" data-i18n="status.out">Gutaran</option>
+              <option value="available" data-i18n="status.ok">Ýeterlik</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th data-i18n="th.product">HARYT</th><th data-i18n="th.category">KATEGORIÝA</th><th data-i18n="th.price">BAHASY</th><th data-i18n="th.stock">GALYNDY</th><th data-i18n="th.status">ÝAGDAÝY</th><th></th></tr></thead>
+            <tbody id="productRows"></tbody>
+          </table>
+        </div>
+        <div class="table-footer"><span id="results"></span><span data-i18n="inv.currency">Bahalar TMT bilen görkezilýär</span></div>
+      </section>
+
+      <section class="panel" id="sales" hidden>
+        <div class="panel-heading">
+          <div><h2 data-i18n="sales.title">Satuw taryhy</h2><p data-i18n="sales.sub">Tamamlanan satuwlaryň sanawy</p></div>
+          <span class="tag" data-i18n="sales.tag">Ähli satuwlar</span>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th data-i18n="th.saleNo">SATUW №</th><th data-i18n="th.date">SENE</th><th data-i18n="th.items">HARYTLAR</th><th data-i18n="th.qty">MUKDAR</th><th data-i18n="th.total">JEMI</th><th data-i18n="th.status">ÝAGDAÝY</th></tr></thead>
+            <tbody id="saleRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer>
+        <span>© <span id="year"></span> <span data-i18n="footer">Dükan · Haryt we satuw dolandyryş ulgamy</span></span>
+        <span data-i18n="footer.version">Wersiýa 1.0</span>
+      </footer>
+    </main>
+  </div>
+
+  <dialog id="productDialog">
+    <form id="productForm">
+      <div class="dialog-head">
+        <div><small data-i18n="pd.eyebrow">HARYT MAGLUMATLARY</small><h2 id="productHeading">Täze haryt</h2></div>
+        <button type="button" data-close="productDialog" data-i18n-aria="close">×</button>
+      </div>
+      <label data-i18n="pd.name">Harydyň ady<input name="name" required maxlength="60" data-i18n-ph="pd.namePh"></label>
+      <div class="form-grid">
+        <label data-i18n="pd.code">Haryt kody<input name="code" required maxlength="20" placeholder="HR-009"></label>
+        <label data-i18n="pd.category">Kategoriýa<select name="category" id="productCategory"></select></label>
+        <label data-i18n="pd.price">Satuw bahasy (TMT)<input name="price" type="number" min="0.01" max="1000000" step="0.01" required></label>
+        <label data-i18n="pd.stock">Ammardaky sany<input name="stock" type="number" min="0" max="1000000" step="1" required></label>
+      </div>
+      <p id="productError" class="error" role="alert"></p>
+      <div class="dialog-actions">
+        <button type="button" class="danger" id="deleteProduct" data-i18n="btn.delete" hidden>Pozmak</button>
+        <button type="button" data-close="productDialog" data-i18n="btn.cancel">Ýatyrmak</button>
+        <button class="primary" data-i18n="btn.save">Ýatda saklamak</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="saleDialog">
+    <div class="dialog-head">
+      <div><small data-i18n="sd.eyebrow">SATUW GEÇIRMEK</small><h2 data-i18n="sd.title">Täze satuw</h2></div>
+      <button data-close="saleDialog" data-i18n-aria="close">×</button>
+    </div>
+    <form id="cartForm">
+      <label data-i18n="sd.product">Haryt<select id="saleProduct"></select></label>
+      <div class="cart-add">
+        <label data-i18n="sd.qty">Mukdar<input type="number" id="quantity" min="1" max="1000000" step="1" value="1" required></label>
+        <button data-i18n="btn.addToCart">＋ Sebede goş</button>
+      </div>
+    </form>
+    <div id="cart"></div>
+    <p id="saleError" class="error" role="alert"></p>
+    <div class="cart-total"><span data-i18n="cart.total">Jemi töleg</span><strong id="cartTotal">0,00 TMT</strong></div>
+    <button class="primary complete" id="complete" data-i18n="btn.complete">Satuwy tamamlamak</button>
+  </dialog>
+
+  <div id="toast" role="status"></div>
+  <script src="i18n.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
